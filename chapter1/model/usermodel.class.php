@@ -10,11 +10,11 @@ class UserModel extends Database
 
     public function deleteUser($userid)
     {
-        return $this->select("DELETE FROM user WHERE user_id = ?", "i", [$userid]);
+        return $this->modify("DELETE FROM user WHERE user_id = ?", "i", [$userid]);
     }
 
     public function createUser($user)
     {
-        return $this->modify("INSERT INTO user (user_email) VALUES (?)", "s", [$user->email]);
+        return $this->modify("INSERT INTO user (user_email) VALUES (?)", "s", [$user->user_email]);
     }
 }

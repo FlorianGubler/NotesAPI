@@ -11,7 +11,7 @@ define("ENDPOINTS", [
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
-for ($i = count($uri); $i >= 0; $i--) {
+for ($i = count($uri) - 1; $i >= 0; $i--) {
     if (array_key_exists($uri[$i], ENDPOINTS)) {
         $strMethodName = $_SERVER['REQUEST_METHOD'];
         $objFeedController = ENDPOINTS[$uri[$i]];

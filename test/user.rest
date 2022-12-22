@@ -1,4 +1,48 @@
-GET http://phpapi/subject1/user/list HTTP/1.1
+POST http://phpapi/chapter1/index.php/user/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_email": "test@test.ch"
+}
 
 ###
 
+GET http://phpapi/chapter1/index.php/user/1 HTTP/1.1
+
+###
+
+DELETE http://phpapi/chapter1/index.php/user/1 HTTP/1.1
+
+###
+
+GET http://phpapi/chapter1/index.php/user/1 HTTP/1.1
+
+###
+
+POST http://phpapi/chapter1/index.php/user/ HTTP/1.1
+Content-Type: application/json
+{
+    "user_email": "test@test.ch"
+}
+
+###
+
+POST http://phpapi/chapter1/index.php/user/note HTTP/1.1
+Content-Type: application/json
+{
+    "note_title": "Test",
+    "note_content": "Lorem Ipsum",
+    "note_user": 1
+}
+
+###
+
+GET http://phpapi/chapter1/index.php/user/note/1 HTTP/1.1
+
+###
+
+DELETE http://phpapi/chapter1/index.php/user/note/1 HTTP/1.1
+
+###
+
+GET http://phpapi/chapter1/index.php/user/1 HTTP/1.1

@@ -60,6 +60,14 @@ Hier wurde eine MVC Architektur umgesetzt. Da es sich aber um eine REST API Schn
 
 Der View Teil ist in dieser API mit JSON implementiert. Die Responses, wie auch die Requests werden in JSON oder auch Path Parameter übergeben.
 
+**Umsetzung im Code**
+Im Code wurden die Controller so implementiert, dass sie Methoden für die HTTP Request Methoden besitzen. Ein Controller hat also zum Beispiel eine Methode GET. Wenn man den Controller mittels POST aufruft und die Methode nicht existiert wird mit der Magic Method der Überklasse Basecontroller (__call) ein 405 - Method not allowed zurückgegeben. Der Controller verwendet wiederum die Models, welche die von der Database Klasse erben. Diese führen die SQL Statements aus.
+
+***
+
+## Testing
+Für das Testing sind im Ordner test/ verschiedene REST Files abgelegt. Diese beeinhalten mehrere vorgefertigte REST Requests, welche ausgeführt werden könne. Sie zeigen Beispiele für alle Endpunkte und Funktionen der API.
+
 ***
 
 ## Reflexion

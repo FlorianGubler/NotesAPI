@@ -31,7 +31,7 @@ class BaseController
     {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = explode('/', $uri);
-        return $uri[count($uri)];
+        return $uri[count($uri) - 1];
     }
 
     /**
@@ -41,7 +41,7 @@ class BaseController
      */
     protected function getBody()
     {
-        return json_decode(stream_get_contents(STDIN));
+        return json_decode(file_get_contents('php://input'));
     }
 
     /**

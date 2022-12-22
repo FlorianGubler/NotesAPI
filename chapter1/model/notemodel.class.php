@@ -10,11 +10,11 @@ class NoteModel extends Database
 
     public function deleteNote($noteid)
     {
-        return $this->select("DELETE FROM note WHERE note_id = ?", "i", [$noteid]);
+        return $this->modify("DELETE FROM note WHERE note_id = ?", "i", [$noteid]);
     }
 
     public function createNote($note)
     {
-        return $this->modify("INSERT INTO note (note_title, note_content, note_user) VALUES (?, ?, ?)", "ssi", [$note->title, $note->content, $note->user]);
+        return $this->modify("INSERT INTO note (note_title, note_content, note_user) VALUES (?, ?, ?)", "ssi", [$note->note_title, $note->note_content, $note->note_user]);
     }
 }

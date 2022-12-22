@@ -12,9 +12,9 @@ class Database
         }
     }
 
-    public function select($query = "", $types = "", $params = [])
+    public function select($query, $types = "", $params = [])
     {
-        $stmt = $this->executeStatement($query, $types = "", $params);
+        $stmt = $this->executeStatement($query, $types, $params);
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
 
@@ -22,16 +22,18 @@ class Database
         return false;
     }
 
-    public function modify($query = "", $types = "", $params = [])
+    public function modify($query, $types = "", $params = [])
     {
-        $stmt = $this->executeStatement($query, $types = "", $params);
-        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
-
-        return $result;
+        try {
+            $stmt = $this->executeStatement($query, $types, $params);
+            $stmt->close();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
-    public function executeStatement($query = "", $types = "", $params = [])
+    public function executeStatement($query, $types, $params)
     {
         $stmt = $this->connection->prepare($query);
 
@@ -40,7 +42,7 @@ class Database
         }
 
         if ($params) {
-            $stmt->bind_param($types, $params[]);
+            $stmt->bind_param($types, ...$params);
         }
 
         $stmt->execute();
