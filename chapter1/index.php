@@ -19,5 +19,5 @@ foreach ($uri as $key => $uri_part) {
 }
 
 //Not Endpoint found
-header("HTTP/1.1 404 Not Found");
+//header("HTTP/1.1 404 Not Found");
 exit();
