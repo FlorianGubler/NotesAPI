@@ -1,18 +1,33 @@
 # m151-phpapi
-Eine PHP REST API mit MariaDB Datenbankanbindung für eine Benutzerverwaltung und die Funkitonalitäten für Verwaltung von Usern und deren Notizen. Für den User, als auch für die Notizen gibt es die Möglichkeit zur Erstellung, Lesen, Auflistung und Lösung. In dieser Lösung wurde kein Sessionhandling oder Authorisierung umgesetzt, also sind alle Endpunkte für jeden verfügbar. Folgende Endpunkte werden angeboten:
+Eine PHP REST API mit MariaDB Datenbankanbindung für eine Benutzerverwaltung und die Funkitonalitäten für Verwaltung von Usern und deren Notizen. Für den User, als auch für die Notizen gibt es die Möglichkeit zur Erstellung, Ausgabe und Löschung. In dieser Umsetzung wurde weder ein Sessionhandling noch ein Authorisierung umgesetzt, es sind also alle Endpunkte für jeden verfügbar. Folgende Endpunkte werden angeboten:
 
-| Endpunkt               | Beschreibung                 | Methode | Parameter    |
-| ---------------------- | ---------------------------- | ------- | ------------ |
-| user/list/{limit}      | Lists all Users              | GET     | limit (INT)  |
-| user/{userid}          | Get specific User            | GET     | userid (INT) |
-| user/{userid}          | Delete a specific User       | DELETE  | userid (INT) |
-| user/                  | Create a new User            | POST    | User Object  |
-| user/note              | Create new Note for User     | POST    | Note Object  |
-| user/note/list/{limit} | Lists all Notes for a User   | GET     | limit (INT)  |
-| user/note/{noteid}     | Gets a specific User Note    | GET     | notid (INT)  |
-| user/note/{noteid}     | Deletes a specific User Note | DELETE  | notid (INT)  |
+| Endpunkt           | Beschreibung                 | Methode | Parameter    |
+| ------------------ | ---------------------------- | ------- | ------------ |
+| user/{userid}      | Get specific User            | GET     | userid (INT) |
+| user/{userid}      | Delete a specific User       | DELETE  | userid (INT) |
+| user/              | Create a new User            | POST    | User Object  |
+| user/note          | Create new Note for User     | POST    | Note Object  |
+| user/note/{noteid} | Gets a specific User Note    | GET     | notid (INT)  |
+| user/note/{noteid} | Deletes a specific User Note | DELETE  | notid (INT)  |
+
+**JSON Entitäten**
+User Object
+```json
+{
+  "email": "test@test.ch"
+}
+```
+Note Object
+```json
+{
+  "title": "test",
+  "content": "lorem ipsum",
+  "user": 1
+}
+```
 
 ***
+
 ## Installation
 Diese API ist eine Standalone Applikation. Es müssen also keine zusätzlichen Dependencys installiert werden. Für das lokale Hosting kann ein Apache V-Host erstellt werden. Hierfür müssen 2 Config Files angepasst werden:
 
@@ -35,6 +50,8 @@ Diese API ist eine Standalone Applikation. Es müssen also keine zusätzlichen D
 	127.0.0.1		phpapi
 ```
 
+***
+
 ## Architektur
 Hier wurde eine MVC Architektur umgesetzt. Da es sich aber um eine REST API Schnittstelle handelt, werden keine Views benötigt. Es ist also eine Model-Controller Architektur.
 
@@ -42,6 +59,8 @@ Hier wurde eine MVC Architektur umgesetzt. Da es sich aber um eine REST API Schn
 <font size="2">*Quelle: [GeeksForGeeks - MVC](https://media.geeksforgeeks.org/wp-content/uploads/20210629165722/mvc.png)*</font>
 
 Der View Teil ist in dieser API mit JSON implementiert. Die Responses, wie auch die Requests werden in JSON oder auch Path Parameter übergeben.
+
+***
 
 ## Reflexion
 //TODO

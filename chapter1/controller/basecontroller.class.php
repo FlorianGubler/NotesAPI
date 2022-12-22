@@ -6,7 +6,7 @@ class BaseController
      */
     public function __call($name, $arguments)
     {
-        $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
+        $this->sendOutput('', array('HTTP/1.1 405 Method Not Allowed'));
     }
 
     /**
@@ -25,11 +25,23 @@ class BaseController
     /**
      * Get querystring params.
      *
-     * @return array
+     * @return string
      */
-    protected function getQueryStringParams()
+    protected function getPathParam()
     {
-        return parse_str($_SERVER['QUERY_STRING'], $query);
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $uri = explode('/', $uri);
+        return $uri[count($uri)];
+    }
+
+    /**
+     * Get request body
+     *
+     * @return mixed
+     */
+    protected function getBody()
+    {
+        return json_decode(stream_get_contents(STDIN));
     }
 
     /**
@@ -48,7 +60,7 @@ class BaseController
             }
         }
 
-        echo $data;
+        echo json_encode($data);
         exit;
     }
 }

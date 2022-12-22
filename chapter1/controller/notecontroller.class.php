@@ -1,18 +1,18 @@
 <?php
-class UserController extends BaseController
+class NoteController extends BaseController
 {
     /**
-     * GET "/user" Endpoint - Get specific users
+     * GET "/user/note/{noteid}" Endpoint - Get specific user note
      */
     public function GET()
     {
         $strErrorDesc = '';
 
         try {
-            $userModel = new UserModel();
-            $responseData = $userModel->getUser($this->getPathParam());
+            $userModel = new NoteModel();
+            $responseData = $userModel->getNote($this->getPathParam());
         } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
+            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please try again later';
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -31,17 +31,17 @@ class UserController extends BaseController
     }
 
     /**
-     * DELETE "/user" Endpoint - Delete a User
+     * DELETE "/user/note/{noteid}" Endpoint - Delete specific user note
      */
     public function DELETE()
     {
         $strErrorDesc = '';
 
         try {
-            $userModel = new UserModel();
-            $userModel->deleteUser($this->getPathParam());
+            $userModel = new NoteModel();
+            $userModel->deleteNote($this->getPathParam());
         } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
+            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please try again later';
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -60,17 +60,17 @@ class UserController extends BaseController
     }
 
     /**
-     * POST "/user" Endpoint - Create new User
+     * POST "/user/note" Endpoint - Create new User Note
      */
     public function POST()
     {
         $strErrorDesc = '';
 
         try {
-            $userModel = new UserModel();
-            $userModel->createUser($this->getBody());
+            $userModel = new NoteModel();
+            $userModel->createNote($this->getBody());
         } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
+            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please try again later';
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -78,7 +78,7 @@ class UserController extends BaseController
         if (!$strErrorDesc) {
             $this->sendOutput(
                 null,
-                array('Content-Type: application/json', 'HTTP/1.1 201 OK')
+                array('Content-Type: application/json', 'HTTP/1.1 201 CREATED')
             );
         } else {
             $this->sendOutput(

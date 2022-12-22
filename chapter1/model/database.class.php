@@ -5,49 +5,46 @@ class Database
 
     public function __construct()
     {
-        try {
-            $this->connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME);
+        $this->connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME);
 
-            if (mysqli_connect_errno()) {
-                throw new Exception("Could not connect to database.");
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        if (mysqli_connect_errno()) {
+            throw new Exception("Could not connect to database.");
         }
     }
 
-    public function select($query = "", $params = [])
+    public function select($query = "", $types = "", $params = [])
     {
-        try {
-            $stmt = $this->executeStatement($query, $params);
-            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
+        $stmt = $this->executeStatement($query, $types = "", $params);
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
 
-            return $result;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
+        return $result;
         return false;
     }
 
-    private function executeStatement($query = "", $params = [])
+    public function modify($query = "", $types = "", $params = [])
     {
-        try {
-            $stmt = $this->connection->prepare($query);
+        $stmt = $this->executeStatement($query, $types = "", $params);
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
 
-            if ($stmt === false) {
-                throw new Exception("Unable to do prepared statement: " . $query);
-            }
+        return $result;
+    }
 
-            if ($params) {
-                $stmt->bind_param($params[0], $params[1]);
-            }
+    public function executeStatement($query = "", $types = "", $params = [])
+    {
+        $stmt = $this->connection->prepare($query);
 
-            $stmt->execute();
-
-            return $stmt;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        if ($stmt === false) {
+            throw new Exception("Unable to do prepared statement: " . $query);
         }
+
+        if ($params) {
+            $stmt->bind_param($types, $params[]);
+        }
+
+        $stmt->execute();
+
+        return $stmt;
     }
 }
