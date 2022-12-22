@@ -1,0 +1,4 @@
+GET http://phpapi/subject1/user/list HTTP/1.1
+
+###
+
