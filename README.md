@@ -1,16 +1,16 @@
 # m151-phpapi
 Eine PHP REST API mit MariaDB Datenbankanbindung für eine Benutzerverwaltung und die Funkitonalitäten für Verwaltung von Usern und deren Notizen. Für den User, als auch für die Notizen gibt es die Möglichkeit zur Erstellung, Lesen, Auflistung und Lösung. In dieser Lösung wurde kein Sessionhandling oder Authorisierung umgesetzt, also sind alle Endpunkte für jeden verfügbar. Folgende Endpunkte werden angeboten:
 
-| Endpunkt           | Beschreibung                 | Methode |
-| ------------------ | ---------------------------- | ------- |
-| user/list          | Lists all Users              | GET     |
-| user/{userid}      | Get specific User            | GET     |
-| user/{userid}      | Delete a specific User       | DELETE  |
-| user/              | Create a new User            | POST    |
-| user/note          | Create new Note for User     | POST    |
-| user/note/list     | Lists all Notes for a User   | GET     |
-| user/note/{noteid} | Gets a specific User Note    | GET     |
-| user/note          | Deletes a specific User Note | DELETE  |
+| Endpunkt               | Beschreibung                 | Methode | Parameter    |
+| ---------------------- | ---------------------------- | ------- | ------------ |
+| user/list/{limit}      | Lists all Users              | GET     | limit (INT)  |
+| user/{userid}          | Get specific User            | GET     | userid (INT) |
+| user/{userid}          | Delete a specific User       | DELETE  | userid (INT) |
+| user/                  | Create a new User            | POST    | User Object  |
+| user/note              | Create new Note for User     | POST    | Note Object  |
+| user/note/list/{limit} | Lists all Notes for a User   | GET     | limit (INT)  |
+| user/note/{noteid}     | Gets a specific User Note    | GET     | notid (INT)  |
+| user/note/{noteid}     | Deletes a specific User Note | DELETE  | notid (INT)  |
 
 ***
 ## Installation
@@ -39,7 +39,7 @@ Diese API ist eine Standalone Applikation. Es müssen also keine zusätzlichen D
 Hier wurde eine MVC Architektur umgesetzt. Da es sich aber um eine REST API Schnittstelle handelt, werden keine Views benötigt. Es ist also eine Model-Controller Architektur.
 
 ![MVC-Architektur](https://media.geeksforgeeks.org/wp-content/uploads/20210629165722/mvc.png "MVC-Architketur")<br>
-<font size="2">*Quelle: [Wikipedia - MVC](https://upload.wikimedia.org/wikipedia/commons/2/2e/ModelViewControllerDiagram.svg)*</font>
+<font size="2">*Quelle: [GeeksForGeeks - MVC](https://media.geeksforgeeks.org/wp-content/uploads/20210629165722/mvc.png)*</font>
 
 Der View Teil ist in dieser API mit JSON implementiert. Die Responses, wie auch die Requests werden in JSON oder auch Path Parameter übergeben.
 
