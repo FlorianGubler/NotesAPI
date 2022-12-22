@@ -38,7 +38,7 @@ Diese API ist eine Standalone Applikation. Es müssen also keine zusätzlichen D
 ## Architektur
 Hier wurde eine MVC Architektur umgesetzt. Da es sich aber um eine REST API Schnittstelle handelt, werden keine Views benötigt. Es ist also eine Model-Controller Architektur.
 
-![MVC-Architektur](https://upload.wikimedia.org/wikipedia/commons/2/2e/ModelViewControllerDiagram.svg "MVC-Architketur")
+![MVC-Architektur](https://upload.wikimedia.org/wikipedia/commons/2/2e/ModelViewControllerDiagram.svg "MVC-Architketur")<br>
 <font size="2">*Quelle: [Wikipedia - MVC](https://upload.wikimedia.org/wikipedia/commons/2/2e/ModelViewControllerDiagram.svg)*</font>
 
 Der View Teil ist in dieser API mit JSON implementiert. Die Responses, wie auch die Requests werden in JSON oder auch Path Parameter übergeben.
