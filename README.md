@@ -64,9 +64,18 @@ Der View Teil ist in dieser API mit JSON implementiert. Die Responses, wie auch 
 Im Code wurden die Controller so implementiert, dass sie Methoden für die HTTP Request Methoden besitzen. Ein Controller hat also zum Beispiel eine Methode GET. Wenn man den Controller mittels POST aufruft und die Methode nicht existiert wird mit der Magic Method der Überklasse Basecontroller (__call) ein 405 - Method not allowed zurückgegeben. Der Controller verwendet wiederum die Models, welche die von der Database Klasse erben. Diese führen die SQL Statements aus.
 
 ***
+## Datenbankschema
+
+![Datenbank ERM](img/ERD.png "Datenbank ERM")
+
+In der Datenbank existieren 2 Tabellen. Eine Tabelle für die User und eine für die Notizen. Die Tabellen haben eine abhängigkeit zueinander, da eine Notiz immer eine Zugehörigkeit zu einem User hat. Da eine Notiz genau einem User gehört, ein User aber mehrere Notizen haben kann ist dies eine <b>1:n</b> Beziehung.
+
+***
 
 ## Testing
 Für das Testing sind im Ordner test/ verschiedene REST Files abgelegt. Diese beeinhalten mehrere vorgefertigte REST Requests, welche ausgeführt werden könne. Sie zeigen Beispiele für alle Endpunkte und Funktionen der API.
+
+Die Beispiel Requests wurden als Sequenz geordnet. Die Requests sollen also einer nach dem anderen von oben nach unten ausgeführt werden. Das Muster dabei ist immer zuerst POST um einen neuen Datensatz einzufügen, dann GET um zu überprüfen ob dies korrekt funktioniert hat. Anschliessend ein DELETE um den erstellten Datensatz wieder zu entfernen, gefolgt von einem weiteren GET um auch das Löschen zu überprüfen.
 
 ***
 
