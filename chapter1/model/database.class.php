@@ -19,18 +19,13 @@ class Database
         $stmt->close();
 
         return $result;
-        return false;
     }
 
     public function modify($query, $types = "", $params = [])
     {
-        try {
-            $stmt = $this->executeStatement($query, $types, $params);
-            $stmt->close();
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        $stmt = $this->executeStatement($query, $types, $params);
+        $stmt->close();
+        return true;
     }
 
     public function executeStatement($query, $types, $params)

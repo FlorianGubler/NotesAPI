@@ -1,4 +1,4 @@
-# m151-phpapi
+# Notes API (m151-phpapi)
 Eine PHP REST API mit MariaDB Datenbankanbindung für eine Benutzerverwaltung und die Funkitonalitäten für Verwaltung von Usern und deren Notizen. Für den User, als auch für die Notizen gibt es die Möglichkeit zur Erstellung, Ausgabe und Löschung. In dieser Umsetzung wurde weder ein Sessionhandling noch ein Authorisierung umgesetzt, es sind also alle Endpunkte für jeden verfügbar. Folgende Endpunkte werden angeboten:
 
 | Endpunkt           | Beschreibung                 | Methode | Parameter    |
@@ -34,13 +34,13 @@ Diese API ist eine Standalone Applikation. Es müssen also keine zusätzlichen D
 **1. V-Hosts Conifg: ...\apache\conf\extra\httpd-vhosts.confg**
 ```xml
 <VirtualHost *:80>
-    ServerAdmin gubler.florian@gmx.net
-    DocumentRoot "C:\Users\User\OneDrive\TBZ\M151\m151-phpapi"
-    ServerName phpapi
-    <Directory C:\Users\User\OneDrive\TBZ\M151\m151-phpapi>
+    ServerAdmin example@example.com
+    DocumentRoot "Path/to/the/api"
+    ServerName examplehostname
+    <Directory Path/to/the/api>
      	Order allow, deny
-		Allow from all
-		Require all granted
+        Allow from all
+        Require all granted
     </Directory>
 </VirtualHost>
 ```

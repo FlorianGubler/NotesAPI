@@ -11,8 +11,12 @@ class UserController extends BaseController
         try {
             $userModel = new UserModel();
             $responseData = $userModel->getUser($this->getPathParam());
-        } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
+            if(count($responseData) == 0){
+                $strErrorDesc = 'User Not Found';
+                $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            }
+        } catch (Exception $e) {
+            $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -20,12 +24,12 @@ class UserController extends BaseController
         if (!$strErrorDesc) {
             $this->sendOutput(
                 $responseData,
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+                array('HTTP/1.1 200 OK')
             );
         } else {
             $this->sendOutput(
-                json_encode(array('error' => $strErrorDesc)),
-                array('Content-Type: application/json', $strErrorHeader)
+                array('error' => $strErrorDesc),
+                array($strErrorHeader)
             );
         }
     }
@@ -38,10 +42,18 @@ class UserController extends BaseController
         $strErrorDesc = '';
 
         try {
+            $userid = $this->getPathParam();
+            //Check if Note exists
             $userModel = new UserModel();
+            if($userModel->userExists($userid)){
+                $userModel->deleteUser($this->getPathParam());
+            } else{
+                $strErrorDesc = 'User Not Found';
+                $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            }
             $userModel->deleteUser($this->getPathParam());
-        } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
+        } catch (Exception $e) {
+            $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -49,12 +61,12 @@ class UserController extends BaseController
         if (!$strErrorDesc) {
             $this->sendOutput(
                 "",
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+                array('HTTP/1.1 200 OK')
             );
         } else {
             $this->sendOutput(
-                json_encode(array('error' => $strErrorDesc)),
-                array('Content-Type: application/json', $strErrorHeader)
+                array('error' => $strErrorDesc),
+                array($strErrorHeader)
             );
         }
     }
@@ -69,8 +81,8 @@ class UserController extends BaseController
         try {
             $userModel = new UserModel();
             $userModel->createUser($this->getBody());
-        } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
+        } catch (Exception $e) {
+            $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -78,12 +90,12 @@ class UserController extends BaseController
         if (!$strErrorDesc) {
             $this->sendOutput(
                 "",
-                array('Content-Type: application/json', 'HTTP/1.1 201 OK')
+                array('HTTP/1.1 201 OK')
             );
         } else {
             $this->sendOutput(
-                json_encode(array('error' => $strErrorDesc)),
-                array('Content-Type: application/json', $strErrorHeader)
+                array('error' => $strErrorDesc),
+                array($strErrorHeader)
             );
         }
     }

@@ -9,10 +9,14 @@ class NoteController extends BaseController
         $strErrorDesc = '';
 
         try {
-            $userModel = new NoteModel();
-            $responseData = $userModel->getNote($this->getPathParam());
-        } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please try again later';
+            $noteModel = new NoteModel();
+            $responseData = $noteModel->getNote($this->getPathParam());
+            if(count($responseData) == 0){
+                $strErrorDesc = 'Note Not Found';
+                $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            }
+        } catch (Exception $e) {
+            $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -20,12 +24,12 @@ class NoteController extends BaseController
         if (!$strErrorDesc) {
             $this->sendOutput(
                 $responseData,
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+                array('HTTP/1.1 200 OK')
             );
         } else {
             $this->sendOutput(
-                json_encode(array('error' => $strErrorDesc)),
-                array('Content-Type: application/json', $strErrorHeader)
+                array('error' => $strErrorDesc),
+                array($strErrorHeader)
             );
         }
     }
@@ -38,10 +42,17 @@ class NoteController extends BaseController
         $strErrorDesc = '';
 
         try {
-            $userModel = new NoteModel();
-            $userModel->deleteNote($this->getPathParam());
-        } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please try again later';
+            $noteid = $this->getPathParam();
+            //Check if Note exists
+            $noteModel = new NoteModel();
+            if($noteModel->noteExists($noteid)){
+                $noteModel->deleteNote($noteid);
+            } else{
+                $strErrorDesc = 'Note Not Found';
+                $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            }
+        } catch (Exception $e) {
+            $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -49,12 +60,12 @@ class NoteController extends BaseController
         if (!$strErrorDesc) {
             $this->sendOutput(
                 "",
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+                array('HTTP/1.1 200 OK')
             );
         } else {
             $this->sendOutput(
-                json_encode(array('error' => $strErrorDesc)),
-                array('Content-Type: application/json', $strErrorHeader)
+                array('error' => $strErrorDesc),
+                array($strErrorHeader)
             );
         }
     }
@@ -67,10 +78,10 @@ class NoteController extends BaseController
         $strErrorDesc = '';
 
         try {
-            $userModel = new NoteModel();
-            $userModel->createNote($this->getBody());
-        } catch (Error $e) {
-            $strErrorDesc = $e->getMessage() . 'Something went wrong! Please try again later';
+            $noteModel = new NoteModel();
+            $noteModel->createNote($this->getBody());
+        } catch (Exception $e) {
+            $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
 
@@ -78,12 +89,12 @@ class NoteController extends BaseController
         if (!$strErrorDesc) {
             $this->sendOutput(
                 "",
-                array('Content-Type: application/json', 'HTTP/1.1 201 CREATED')
+                array('HTTP/1.1 201 CREATED')
             );
         } else {
             $this->sendOutput(
-                json_encode(array('error' => $strErrorDesc)),
-                array('Content-Type: application/json', $strErrorHeader)
+                array('error' => $strErrorDesc),
+                array($strErrorHeader)
             );
         }
     }

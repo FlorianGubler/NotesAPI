@@ -53,14 +53,16 @@ class BaseController
     protected function sendOutput($data, $httpHeaders = array())
     {
         header_remove('Set-Cookie');
+        header("Content-Type: application/json");
 
         if (is_array($httpHeaders) && count($httpHeaders)) {
             foreach ($httpHeaders as $httpHeader) {
                 header($httpHeader);
             }
         }
-
-        echo json_encode($data);
+        if($data != null && $data != ""){
+            echo json_encode($data);
+        }
         exit;
     }
 }

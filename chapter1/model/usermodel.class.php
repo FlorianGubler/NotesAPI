@@ -17,4 +17,8 @@ class UserModel extends Database
     {
         return $this->modify("INSERT INTO user (user_email) VALUES (?)", "s", [$user->user_email]);
     }
+
+    public function userExists($userid){
+        return count($this->getUser($userid)) > 0;
+    }
 }

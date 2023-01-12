@@ -17,4 +17,8 @@ class NoteModel extends Database
     {
         return $this->modify("INSERT INTO note (note_title, note_content, note_user) VALUES (?, ?, ?)", "ssi", [$note->note_title, $note->note_content, $note->note_user]);
     }
+
+    public function noteExists($userid){
+        return count($this->getNote($userid)) > 0;
+    }
 }
