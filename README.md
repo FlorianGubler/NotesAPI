@@ -56,7 +56,7 @@ Das Dependency Management wurde mit composer gelöst. Es muss also zuerst compos
 ```
 composer install
 ```
-Alle Lirbarys werden im Folder chapter2/vendor generiert.
+Alle Librarys werden im Folder chapter2/vendor generiert.
 
 ***
 
