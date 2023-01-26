@@ -2,7 +2,8 @@ POST http://phpapi/chapter1/index.php/user HTTP/1.1
 Content-Type: application/json
 
 {
-    "user_email": "test@test.ch"
+    "user_email": "test@test.ch",
+    "user_name": "Test"
 }
 
 ###
@@ -13,17 +14,17 @@ Content-Type: application/json
 {
     "note_title": "Test",
     "note_content": "Lorem Ipsum",
-    "note_user": 10
+    "note_user": 15
 }
 
 ###
 
-GET http://phpapi/chapter1/index.php/user/note/7 HTTP/1.1
+GET http://phpapi/chapter1/index.php/user/note/24 HTTP/1.1
 
 ###
 
-DELETE http://phpapi/chapter1/index.php/user/note/7 HTTP/1.1
+DELETE http://phpapi/chapter1/index.php/user/note/24 HTTP/1.1
 
 ###
 
-GET http://phpapi/chapter1/index.php/user/1 HTTP/1.1
+GET http://phpapi/chapter1/index.php/user/24 HTTP/1.1

@@ -18,7 +18,7 @@ class NoteModel
     #[ORM\Column(type: 'integer')]
     #[ORM\ManyToOne(targetEntity: UserModel::class, inversedBy: 'notes')]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
-    public UserModel $note_user;
+    public UserModel|int $note_user;
 
     public function __construct($obj){
         $this->note_title = $obj->note_title;

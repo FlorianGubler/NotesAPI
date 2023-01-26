@@ -90,13 +90,20 @@ class NoteController extends BaseController
         $strErrorDesc = '';
 
         try {
-            $note = new NoteModel($this->getBody());
+            $body = $this->getBody();
+            $note_user = $this->entityManager->find("UserModel", $body->note_user);
 
-            $this->entityManager->persist($note);
-            $this->entityManager->flush();
+            if($note_user == null){
+                $strErrorDesc = 'Referenced User not found';
+                $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            } else{
+                $note = new NoteModel($body);
 
-            $responseData = $this->noteToStd($note);
+                $this->entityManager->persist($note);
+                $this->entityManager->flush();
 
+                $responseData = $this->noteToStd($note);
+            }
         } catch (Exception $e) {
             $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';

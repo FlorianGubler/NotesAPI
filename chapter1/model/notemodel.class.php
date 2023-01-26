@@ -8,6 +8,11 @@ class NoteModel extends Database
         return $this->select("SELECT * FROM note WHERE note_id = ?", "i", [$noteid]);
     }
 
+    public function getUserNotes($userid)
+    {
+        return $this->select("SELECT * FROM note WHERE note_user = ?", "i", [$userid]);
+    }
+
     public function deleteNote($noteid)
     {
         return $this->modify("DELETE FROM note WHERE note_id = ?", "i", [$noteid]);

@@ -10,10 +10,14 @@ class UserController extends BaseController
 
         try {
             $userModel = new UserModel();
-            $responseData = $userModel->getUser($this->getPathParam());
-            if(count($responseData) == 0){
+            $resp = $userModel->getUser($this->getPathParam());
+            if(count($resp) == 0){
                 $strErrorDesc = 'User Not Found';
                 $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            } else{
+                $responseData = $resp[0];
+                $noteModel = new NoteModel();
+                $responseData["notes"] = $noteModel->getUserNotes($this->getPathParam());
             }
         } catch (Exception $e) {
             $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
@@ -46,6 +50,10 @@ class UserController extends BaseController
             //Check if Note exists
             $userModel = new UserModel();
             if($userModel->userExists($userid)){
+                $noteModel = new NoteModel();
+                foreach($noteModel->getUserNotes($userid) as $note){
+                    $noteModel->deleteNote($note["note_id"]);
+                }
                 $userModel->deleteUser($this->getPathParam());
             } else{
                 $strErrorDesc = 'User Not Found';
@@ -90,7 +98,7 @@ class UserController extends BaseController
         if (!$strErrorDesc) {
             $this->sendOutput(
                 "",
-                array('HTTP/1.1 201 OK')
+                array('HTTP/1.1 201 CREATED')
             );
         } else {
             $this->sendOutput(

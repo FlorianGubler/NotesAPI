@@ -15,12 +15,13 @@ class UserModel
     private string $user_name;
     #[ORM\Column(type: 'string')]
     private string $user_email;
-
-    private array $notes;
+    #[ORM\OneToMany(targetEntity: NoteModel::class, mappedBy: 'note_user')]
+    private $notes;
 
     public function __construct($obj){
         $this->user_name = $obj->user_name;
         $this->user_email = $obj->user_email;
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): int
