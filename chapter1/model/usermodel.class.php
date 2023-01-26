@@ -15,7 +15,7 @@ class UserModel extends Database
 
     public function createUser($user)
     {
-        return $this->modify("INSERT INTO user (user_email) VALUES (?)", "s", [$user->user_email]);
+        return $this->modify("INSERT INTO user (user_email, user_name) VALUES (?, ?)", "ss", [$user->user_email, $user->user_name]);
     }
 
     public function userExists($userid){

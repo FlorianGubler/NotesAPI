@@ -1,5 +1,7 @@
 <?php
 require_once PROJECT_ROOT_PATH . "/model/notemodel.class.php";
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'user')]
@@ -8,45 +10,56 @@ class UserModel
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue]
-    private int|null $id = null;
+    private int|null $user_id = null;
     #[ORM\Column(type: 'string')]
     private string $user_name;
     #[ORM\Column(type: 'string')]
     private string $user_email;
-    #[ORM\OneToMany(targetEntity: NoteModel::class, mappedBy: 'user')]
-    private Collection $notes;
 
-    public function __construct(){
-        $this->notes = new ArrayCollection();
+    private array $notes;
+
+    public function __construct($obj){
+        $this->user_name = $obj->user_name;
+        $this->user_email = $obj->user_email;
     }
 
     public function getId(): int
     {
-        return $this->id;
+        return $this->user_id;
     }
 
     public function setId(int $id): void
     {
-        $this->id = $id;
+        $this->user_id = $id;
     }
 
-    public function getUser_name(): string
+    public function getName(): string
     {
-        return $this->title;
+        return $this->user_name;
     }
 
-    public function setUser_name(string $title): void
+    public function setName(string $name): void
     {
-        $this->title = $title;
+        $this->user_name = $name;
     }
 
-    public function getUser_email(): string
+    public function getEmail(): string
     {
-        return $this->content;
+        return $this->user_email;
     }
 
-    public function setUser_email(string $content): void
+    public function setEmail(string $content): void
     {
-        $this->content = $content;
+        $this->user_email = $email;
+    }
+
+    public function getNotes(): array
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(array $elements): void
+    {
+        $this->notes = $elements;
     }
 }

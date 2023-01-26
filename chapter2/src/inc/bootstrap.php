@@ -13,22 +13,20 @@ use Doctrine\ORM\ORMSetup;
 
 require_once __DIR__."/../../vendor/autoload.php";
 
-// Create a simple "default" Doctrine ORM configuration for Attributes
-$config = ORMSetup::createAttributeMetadataConfiguration(
-    paths: array(__DIR__."/../model/"),
-    isDevMode: true,
-);
+$paths = [__DIR__.'/../model'];
+$isDevMode = false;
 
-// configuring the database connection
-$connection = DriverManager::getConnection([
-    'host' => DB_HOST,
-    'user' => DB_USERNAME,
+// the connection configuration
+$dbParams = [
+    'driver'   => 'pdo_mysql',
+    'user'     => DB_USERNAME,
     'password' => DB_PASSWORD,
-    'dbname' => DB_DATABASE_NAME,
-    'driver' => 'pdo_sqlite'
-], $config);
+    'dbname'   => DB_DATABASE_NAME,
+    'host' => DB_HOST
+];
 
-// obtaining the entity manager
+$config = ORMSetup::createAttributeMetadataConfiguration($paths, $isDevMode);
+$connection = DriverManager::getConnection($dbParams, $config);
 $entityManager = new EntityManager($connection, $config);
 
 // include the base controller file

@@ -14,7 +14,8 @@ Eine PHP REST API mit MariaDB Datenbankanbindung für eine Benutzerverwaltung un
 User Object
 ```json
 {
-  "email": "test@test.ch"
+  "user_email": "test@test.ch",
+  "user_name": "Test"
 }
 ```
 Note Object
@@ -50,6 +51,13 @@ Diese API ist eine Standalone Applikation. Es müssen also keine zusätzlichen D
 	127.0.0.1		phpapi
 ```
 
+#### ORM Mapper Installation
+Das Dependency Management wurde mit composer gelöst. Es muss also zuerst composer installiert sein, danach kann man mit folgendem Befehl alle Dependencys installieren:
+```
+composer install
+```
+Alle Lirbarys werden im Folder chapter2/vendor generiert.
+
 ***
 
 ## Architektur
@@ -79,7 +87,16 @@ Die Beispiel Requests wurden als Sequenz geordnet. Die Requests sollen also eine
 
 ***
 
+## ORM
+Als ORM Mapper wurde im chapter2/ Doctrine eingesetzt. Für das Dependency Management ist composer verwendet werden. Für ORM wurden die 2 Models zu Doctrine Entitäten umgewandelt. Im bootstrap.php File findet die ganze Initalisierung und Konfigurierung statt.
+
+Um Enitäten, etc. zu generieren und damit zu arbeiten, bietet Doctrine ein Command Line Interface an. Dies ist im chapter2/bin/doctrine konfiguriert.
+
+Doctrine: [Doctrine - Get Started](https://www.doctrine-project.org/projects/doctrine-orm/en/current/tutorials/getting-started.html)
+
+***
+
 ## Reflexion
-//TODO
+Insgesamt fand ich dies ein spannendes und interessantes Projekt, da man sich auch etwas mit der ganzen Umgebung der Datenbank und Konfigurationen auseinandersetzen muss. Trotzdem finde ich das Umsetzen von APIs in PHP sehr umständlich, da für einiges keine oder nur sehr spezielle Lösungen bietet.
 
-
+Mit dem Endresultat bin ich trotzdem sehr zufrieden, und habe auch einiges neues gelernt. Zum Beispiel kannte ich composer noch gar nicht, ich wusste nicht einmal das es Dependency Managements für PHP gibt. Auch die ORM Umsetzung in PHP habe ich bisher noch nie verwendet. Deshalb finde ich es insgesamt ein gelungenes und lehrreiches Projekt.

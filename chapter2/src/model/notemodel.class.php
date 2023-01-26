@@ -10,52 +10,59 @@ class NoteModel
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue]
-    private int|null $id = null;
+    private int|null $note_id = null;
     #[ORM\Column(type: 'string')]
-    private string $title;
+    private string $note_title;
     #[ORM\Column(type: 'string')]
-    private string $content;
+    private string $note_content;
     #[ORM\Column(type: 'integer')]
     #[ORM\ManyToOne(targetEntity: UserModel::class, inversedBy: 'notes')]
-    private UserModel|null $user;
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    public UserModel $note_user;
+
+    public function __construct($obj){
+        $this->note_title = $obj->note_title;
+        $this->note_content = $obj->note_content;
+        $this->note_user = $obj->note_user;
+    }
 
     public function getId(): int
     {
-        return $this->id;
+        return $this->note_id;
     }
 
     public function setId(int $id): void
     {
-        $this->id = $id;
+        $this->note_id = $id;
     }
 
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->note_title;
     }
 
     public function setTitle(string $title): void
     {
-        $this->title = $title;
+        $this->note_title = $title;
     }
 
     public function getContent(): string
     {
-        return $this->content;
+        return $this->note_content;
     }
 
     public function setContent(string $content): void
     {
-        $this->content = $content;
+        $this->note_content = $content;
     }
 
-    public function getUser(): UserModel
+    public function getUser(): UserModel|int
     {
-        return $this->user;
+        return $this->note_user;
     }
 
     public function setUser(UserModel $user): void
     {
-        $this->user = $user;
+        $this->note_user = $user;
     }
 }

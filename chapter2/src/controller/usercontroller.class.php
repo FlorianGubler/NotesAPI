@@ -1,6 +1,12 @@
 <?php
 class UserController extends BaseController
 {
+    private $entityManager;
+
+    public function __construct($em){
+        $this->entityManager = $em;
+    }
+
     /**
      * GET "/user" Endpoint - Get specific users
      */
@@ -9,11 +15,19 @@ class UserController extends BaseController
         $strErrorDesc = '';
 
         try {
-            $userModel = new UserModel();
-            $responseData = $userModel->getUser($this->getPathParam());
-            if(count($responseData) == 0){
+            $userid = $this->getPathParam();
+
+            $user = $this->entityManager->find('UserModel', $userid);
+
+            //Find Notes
+            $query = $this->entityManager->createQuery('SELECT notes.note_id, notes.note_title, notes.note_content FROM NoteModel notes WHERE notes.note_user = ' . $userid);
+            $user->setNotes($query->getResult());
+
+            if($user == null){
                 $strErrorDesc = 'User Not Found';
                 $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            } else{
+                $responseData = $this->userToStd($user);
             }
         } catch (Exception $e) {
             $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
@@ -43,16 +57,26 @@ class UserController extends BaseController
 
         try {
             $userid = $this->getPathParam();
-            //Check if Note exists
-            $userModel = new UserModel();
-            if($userModel->userExists($userid)){
-                $userModel->deleteUser($this->getPathParam());
-            } else{
+
+            $this->entityManager->getConnection()->beginTransaction();
+
+            $user = $this->entityManager->find('UserModel', array('user_id' => $userid));
+
+            $query = $this->entityManager->createQuery('DELETE FROM NoteModel notes WHERE notes.note_user = ' . $userid);
+            $query->execute();
+
+            if($user == null){
                 $strErrorDesc = 'User Not Found';
                 $strErrorHeader = 'HTTP/1.1 404 Not Found';
+                $this->entityManager->getConnection()->rollback();
+            } else{
+                $this->entityManager->remove($user);
+                $this->entityManager->flush();
             }
-            $userModel->deleteUser($this->getPathParam());
+            $this->entityManager->flush();
+            $this->entityManager->getConnection()->commit();
         } catch (Exception $e) {
+            $this->entityManager->getConnection()->rollback();
             $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
         }
@@ -79,8 +103,12 @@ class UserController extends BaseController
         $strErrorDesc = '';
 
         try {
-            $userModel = new UserModel();
-            $userModel->createUser($this->getBody());
+            $user = new UserModel($this->getBody());
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            $responseData = $this->userToStd($user);
         } catch (Exception $e) {
             $strErrorDesc = 'Something went wrong! Please contact support: ' . $e->getMessage();
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -89,7 +117,7 @@ class UserController extends BaseController
         // send output
         if (!$strErrorDesc) {
             $this->sendOutput(
-                "",
+                $responseData,
                 array('HTTP/1.1 201 OK')
             );
         } else {
@@ -98,5 +126,14 @@ class UserController extends BaseController
                 array($strErrorHeader)
             );
         }
+    }
+
+    private function userToStd(UserModel $user){
+        return (object) [
+            'user_id' => $user->getId(),
+            'user_email' => $user->getEmail(),
+            'user_name' => $user->getName(),
+            "notes" => []
+        ];
     }
 }

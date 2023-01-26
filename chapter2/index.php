@@ -1,11 +1,11 @@
 <?php
-require __DIR__ . "/inc/bootstrap.php";
+require __DIR__ . "\src\inc\bootstrap.php";
 require PROJECT_ROOT_PATH . "/controller/usercontroller.class.php";
 require PROJECT_ROOT_PATH . "/controller/notecontroller.class.php";
 
 define("ENDPOINTS", [
-    "user" => new UserController(),
-    "note" => new NoteController()
+    "user" => new UserController($entityManager),
+    "note" => new NoteController($entityManager)
 ]);
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
