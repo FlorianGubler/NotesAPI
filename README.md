@@ -21,9 +21,9 @@ User Object
 Note Object
 ```json
 {
-  "title": "test",
-  "content": "lorem ipsum",
-  "user": 1
+  "note_title": "test",
+  "note_content": "lorem ipsum",
+  "note_user": 1
 }
 ```
 

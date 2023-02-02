@@ -8,12 +8,12 @@ Content-Type: application/json
 
 ###
 
-GET http://phpapi/chapter1/index.php/user/14 HTTP/1.1
+GET http://phpapi/chapter1/index.php/user/35 HTTP/1.1
 
 ###
 
-DELETE http://phpapi/chapter1/index.php/user/14 HTTP/1.1
+DELETE http://phpapi/chapter1/index.php/user/35 HTTP/1.1
 
 ###
 
-GET http://phpapi/chapter1/index.php/user/14 HTTP/1.1
+GET http://phpapi/chapter1/index.php/user/35 HTTP/1.1

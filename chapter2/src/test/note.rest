@@ -4,20 +4,20 @@ Content-Type: application/json
 {
     "note_title": "Test",
     "note_content": "Lorem Ipsum",
-    "note_user": 15
+    "note_user": 1
 }
 
 ###
 
-GET http://phpapi/chapter2/index.php/user/note/33 HTTP/1.1
+GET http://phpapi/chapter2/index.php/user/note/37 HTTP/1.1
 
 ###
 
-DELETE http://phpapi/chapter2/index.php/user/note/33 HTTP/1.1
+DELETE http://phpapi/chapter2/index.php/user/note/37 HTTP/1.1
 
 ###
 
-GET http://phpapi/chapter2/index.php/user/note/33 HTTP/1.1
+GET http://phpapi/chapter2/index.php/user/note/37 HTTP/1.1
 
 ###
 
