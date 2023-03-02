@@ -1,4 +1,4 @@
-# Notes API (m151-phpapi)
+# Notes API
 Eine PHP REST API mit MariaDB Datenbankanbindung für eine Benutzerverwaltung und die Funkitonalitäten für Verwaltung von Usern und deren Notizen. Für den User, als auch für die Notizen gibt es die Möglichkeit zur Erstellung, Ausgabe und Löschung. In dieser Umsetzung wurde weder ein Sessionhandling noch ein Authorisierung umgesetzt, es sind also alle Endpunkte für jeden verfügbar. Folgende Endpunkte werden angeboten:
 
 | Endpunkt           | Beschreibung                 | Methode | Parameter    |
